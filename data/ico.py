@@ -43,7 +43,6 @@ def main(args):
     ### Parse PlugIn config file
     # ---------------------------------------------
    
-    #lbpConfigICOCFG = os.path.join('/opt/loxberry/config/plugins/ICO/ico.cfg') 
     lbpConfigICOCFG = os.path.join(PConfig.plugin("LBPCONFIG"),"ICO", "ico.cfg")
     lbpConfigICOtoken = os.path.join(PConfig.plugin("LBPCONFIG"),"ICO", "token.txt")
     #print('lbpConfigICOCFG:',lbpConfigICOCFG)
