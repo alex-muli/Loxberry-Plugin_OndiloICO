@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # encoding=utf-8
 
-# Version 2021-06-22_V13 Loxberry Plugin - Ondilo ICO Poolsensor
+# Version 2021-06-23_V16 Loxberry Plugin - Ondilo ICO Poolsensor
 
 import requests
 import getpass
@@ -236,6 +236,21 @@ def main(args):
             #print(" ",packet)
             #sock.sendto(bytes(packet, 'utf-8'), (miniserverIP, virtualUDPPort))
         print('------------------------------------')
+    
+    # ---------------------------------------------------------------------------------------
+    ### Get a list active recommendations ###
+    # ---------------------------------------------------------------------------------------
+        recommendations = OndiloAPI().get_recommendations(pool_id, access_token)
+        updated_time_obj = datetime.strptime(recommendations[0]['updated_at'], '%Y-%m-%dT%H:%M:%S+0000') + timedelta(hours=2)
+
+        print('------------------------------------')
+        print('Recommendations: ',updated_time_obj)
+        for i in recommendations:
+            print(" ",i['title'],":",i['message']," von: ", i['updated_at'])
+            packet = "{0}.{1}.{2}={3}".format("Ondilo_ICO_recommendations",updated_time_obj, i['title'], i['message'])
+            #print(" ",packet)
+            #sock.sendto(bytes(packet, 'utf-8'), (miniserverIP, virtualUDPPort))
+        print('------------------------------------')
 
     # ---------------------------------------------------------------------------------------
     ### Send UDP-Messages and print UDP-Messages ###
@@ -267,7 +282,10 @@ def main(args):
         packet_rssi= "{0}.{1}_{2}%".format("Ondilo_ICO_Rssi",date_time_obj, rssi)
         print(packet_rssi)
         sock.sendto(bytes(packet_rssi, 'utf-8'), (miniserverIP, virtualUDPPort))
-    
+        recommendations = OndiloAPI().get_recommendations(pool_id, access_token)[0]['title']
+        packet_recommendations = "{0}.Titel: {1} | Beschreibung: {2} | von: {3}.".format("Ondilo_ICO_recommendations", i['title'], i['message'], updated_time_obj)
+        print(packet_recommendations)
+       
         sys.exit(0)
 
 
@@ -418,6 +436,20 @@ class OndiloAPI():
         data = r.json()
         return data
 
+# ---------------------------------------------------------------------------------------
+### Retrieve List active recommendations  ###
+# ---------------------------------------------------------------------------------------
+    def get_recommendations(self, pool_id, access_token):
+        last_url = self._api_url + 'pools/' + str(pool_id) + '/recommendations'
+        headers = {'Authorization': 'Bearer '+str(access_token),
+            		'Accept': 'application/json',
+					'Accept-Charset': 'utf-8',
+					'Accept-Encoding': 'gzip-deflate',
+					'Content-type': 'application/json'}
+        r = requests.get(url = last_url, headers = headers)
+        data = r.json()
+        return data
+
 class Config:
   __loxberry = {
     "LBSCONFIG": os.getenv("LBSCONFIG", os.getcwd()),
@@ -518,3 +550,13 @@ if __name__ == "__main__":
         main(args)
     except Exception as e:
         logging.critical(e, exc_info=True)
+
+
+    # ---------------------------------------------------------------------------------------
+    ### Putty Test
+    # ---------------------------------------------------------------------------------------
+    #   login: loxberry
+    #    password: *********
+    #    
+    #  loxberry@loxberry: python3 /opt/loxberry/data/plugins/ICO/ico.py
+    # ---------------------------------------------------------------------------------------
