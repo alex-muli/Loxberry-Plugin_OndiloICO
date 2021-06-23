@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # encoding=utf-8
 
-# Version 2021-06-23_V17 Loxberry Plugin - Ondilo ICO Poolsensor
+# Version 2021-06-23_V18 Loxberry Plugin - Ondilo ICO Poolsensor
 
 import requests
 import getpass
@@ -285,7 +285,7 @@ def main(args):
         recommendations = OndiloAPI().get_recommendations(pool_id, access_token)[0]['title']
         packet_recommendations = "{0}.Titel: {1} | Beschreibung: {2} | von: {3}.".format("Ondilo_ICO_recommendations", i['title'], i['message'], updated_time_obj)
         print(packet_recommendations)
-	sock.sendto(bytes(packet_recommendations, 'utf-8'), (miniserverIP, virtualUDPPort))
+        sock.sendto(bytes(packet_recommendations, 'utf-8'), (miniserverIP, virtualUDPPort))
        
         sys.exit(0)
 
@@ -551,4 +551,3 @@ if __name__ == "__main__":
         main(args)
     except Exception as e:
         logging.critical(e, exc_info=True)
-
