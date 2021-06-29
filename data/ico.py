@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # encoding=utf-8
 
-# Version 2021-06-23_V18 Loxberry Plugin - Ondilo ICO Poolsensor
+# Version 2021-06-27_V21 Loxberry Plugin - Ondilo ICO Poolsensor
 
 import requests
 import getpass
@@ -15,7 +15,6 @@ import time
 import os
 import configparser
 import json
-import requests
 import logging
 import urllib.parse
 from datetime import datetime, timedelta
@@ -108,6 +107,7 @@ def main(args):
             sys.exit(-1)
 
         miniserverIP = data["Miniserver"][miniserverID]["Ipaddress"]
+        MSFulluri = data["Miniserver"][miniserverID]["Fulluri"]
         logging.info("Miniserver ip address: {0}".format(miniserverIP))
 
 
@@ -241,17 +241,39 @@ def main(args):
     ### Get a list active recommendations ###
     # ---------------------------------------------------------------------------------------
         recommendations = OndiloAPI().get_recommendations(pool_id, access_token)
-        updated_time_obj = datetime.strptime(recommendations[0]['updated_at'], '%Y-%m-%dT%H:%M:%S+0000') + timedelta(hours=2)
-
+        n = int(0)
         print('------------------------------------')
-        print('Recommendations: ',updated_time_obj)
+        h = requests.post(str(MSFulluri) + '/dev/sps/io/ICO1/...')
+        h = requests.post(str(MSFulluri) + '/dev/sps/io/ICO2/...')
+        h = requests.post(str(MSFulluri) + '/dev/sps/io/ICO3/...')
+        h = requests.post(str(MSFulluri) + '/dev/sps/io/ICO4/...')
+        print('ICO1-4 gelöscht')
+        
         for i in recommendations:
-            print(" ",i['title'],":",i['message']," von: ", i['updated_at'])
-            packet = "{0}.{1}.{2}={3}".format("Ondilo_ICO_recommendations",updated_time_obj, i['title'], i['message'])
+            n = n + 1
+            created_time_obj = datetime.strptime(i['created_at'], '%Y-%m-%dT%H:%M:%S+0000') + timedelta(hours=2)
+            updated_time_obj = datetime.strptime(i['updated_at'], '%Y-%m-%dT%H:%M:%S+0000') + timedelta(hours=2)
+            print('------------------------------------')
+            print(n)
+            print('------------------------------------')
+            print('Notification von: ',created_time_obj, 'Update am: ',updated_time_obj)
+            print(i['title'],":",i['message'])
+            packet = "{0}.{1}.{2}={3}".format("Ondilo_ICO_recommendations",created_time_obj, i['title'], i['message'])
+            http_packet = "{0} Beschreibung: {1} von: {2} update am: {3} ".format(i['title'], i['message'], created_time_obj, updated_time_obj)
+            print('------------------------------------')
+            print(i)
+            print('------------------------------------')
             #print(" ",packet)
             #sock.sendto(bytes(packet, 'utf-8'), (miniserverIP, virtualUDPPort))
-        print('------------------------------------')
+            h = requests.post(str(MSFulluri) + '/dev/sps/io/ICO' + str(n) + '/' + str(http_packet))
 
+            #if h.status_code != 200:
+                #auth_error = 1
+                #print('Authentication error')
+                #exit()
+            print('------------------------------------')
+        
+        
     # ---------------------------------------------------------------------------------------
     ### Send UDP-Messages and print UDP-Messages ###
     # ---------------------------------------------------------------------------------------
@@ -262,31 +284,32 @@ def main(args):
         packet_temp = "{0}.{1}_min{2}_={3}_max{4}-{5}".format("Ondilo_ICO_Temperatur",date_time_obj, conf_temp_low, temp, conf_temp_high, units_temperature)
         print(packet_temp)
         sock.sendto(bytes(packet_temp, 'utf-8'), (miniserverIP, virtualUDPPort))
+        
         orp = OndiloAPI().get_values(pool_id, access_token)[1]['value']
         packet_orp = "{0}.{1}_min{2}_={3}_max{4}-{5}".format("Ondilo_ICO_ORP",date_time_obj, conf_orp_low, orp ,conf_orp_high, units_orp)
         print(packet_orp)
         sock.sendto(bytes(packet_orp, 'utf-8'), (miniserverIP, virtualUDPPort))
+        
         ph = OndiloAPI().get_values(pool_id, access_token)[2]['value']
         packet_ph = "{0}.{1}_min{2}_={3}_max{4}".format("Ondilo_ICO_PH",date_time_obj, conf_ph_low, ph ,conf_ph_high)
         print(packet_ph)
         sock.sendto(bytes(packet_ph, 'utf-8'), (miniserverIP, virtualUDPPort))
+        
         tds = OndiloAPI().get_values(pool_id, access_token)[3]['value']
         packet_tds = "{0}.{1}_min{2}_={3}_max{4}-{5}".format("Ondilo_ICO_TDS",date_time_obj, conf_tds_low, tds ,conf_tds_high, units_hardness)
         print(packet_tds)
         sock.sendto(bytes(packet_tds, 'utf-8'), (miniserverIP, virtualUDPPort))
+        
         battery = OndiloAPI().get_values(pool_id, access_token)[4]['value']
         packet_battery = "{0}.{1}_{2}%".format("Ondilo_ICO_Battery",date_time_obj, battery)
         print(packet_battery)
         sock.sendto(bytes(packet_battery, 'utf-8'), (miniserverIP, virtualUDPPort))
+        
         rssi = OndiloAPI().get_values(pool_id, access_token)[5]['value']
         packet_rssi= "{0}.{1}_{2}%".format("Ondilo_ICO_Rssi",date_time_obj, rssi)
         print(packet_rssi)
         sock.sendto(bytes(packet_rssi, 'utf-8'), (miniserverIP, virtualUDPPort))
-        recommendations = OndiloAPI().get_recommendations(pool_id, access_token)[0]['title']
-        packet_recommendations = "{0}.Titel: {1} | Beschreibung: {2} | von: {3}.".format("Ondilo_ICO_recommendations", i['title'], i['message'], updated_time_obj)
-        print(packet_recommendations)
-        sock.sendto(bytes(packet_recommendations, 'utf-8'), (miniserverIP, virtualUDPPort))
-       
+           
         sys.exit(0)
 
 
