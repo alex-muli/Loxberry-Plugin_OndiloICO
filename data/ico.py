@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # encoding=utf-8
 
-# Version 2022-04-14_V22 Loxberry Plugin - Ondilo ICO Poolsensor
+# Version 2022-04-14_V23 Loxberry Plugin - Ondilo ICO Poolsensor
 
 import requests
 import getpass
@@ -200,8 +200,8 @@ def main(args):
         #print("units:",units)
         #print('------------------------------------')
 
-        units_conductivity = OndiloAPI().get_units(access_token)['conductivity']
-        units_hardness = OndiloAPI().get_units(access_token)['hardness']
+        #units_conductivity = OndiloAPI().get_units(access_token)['conductivity']
+        #units_hardness = OndiloAPI().get_units(access_token)['hardness']
         units_orp = OndiloAPI().get_units(access_token)['orp']
         units_pressure = OndiloAPI().get_units(access_token)['pressure']
         units_salt = OndiloAPI().get_units(access_token)['salt']
@@ -209,7 +209,7 @@ def main(args):
         units_temperature = OndiloAPI().get_units(access_token)['temperature']
         units_volume = OndiloAPI().get_units(access_token)['volume']
         units_tds = OndiloAPI().get_units(access_token)['tds']
-        #print("test:",units_temperature
+        #print("Units:",units_temperature)
 
         conf_temp_low = OndiloAPI().get_configuration(pool_id, access_token)['temperature_low']
         conf_temp_high = OndiloAPI().get_configuration(pool_id, access_token)['temperature_high']
