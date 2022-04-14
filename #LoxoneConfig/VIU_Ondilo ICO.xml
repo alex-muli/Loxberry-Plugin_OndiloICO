@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VirtualInUdp Title="Ondilo ICO" Comment="" Address="192.168.23.6" Port="5005">
+	<VirtualInUdpCmd Title="Wassertemperatur" Comment="" Address="" Check="Ondilo_ICO_Temperatur.\i=\i\v" Signed="true" Analog="true" SourceValLow="0" DestValLow="0" SourceValHigh="100" DestValHigh="100" DefVal="0" MinVal="-10000" MaxVal="10000"/>
+	<VirtualInUdpCmd Title="ORP" Comment="Desinfektionsmittel" Address="" Check="Ondilo_ICO_ORP.\i=\i\v" Signed="true" Analog="true" SourceValLow="0" DestValLow="0" SourceValHigh="100" DestValHigh="100" DefVal="0" MinVal="-10000" MaxVal="10000"/>
+	<VirtualInUdpCmd Title="pH Index" Comment="" Address="" Check="Ondilo_ICO_PH.\i=\i\v" Signed="true" Analog="true" SourceValLow="0" DestValLow="0" SourceValHigh="100" DestValHigh="100" DefVal="0" MinVal="-10000" MaxVal="10000"/>
+	<VirtualInUdpCmd Title="TDS Index" Comment="" Address="" Check="Ondilo_ICO_TDS.\i=\i\v" Signed="true" Analog="true" SourceValLow="0" DestValLow="0" SourceValHigh="100" DestValHigh="100" DefVal="0" MinVal="-10000" MaxVal="10000"/>
+	<VirtualInUdpCmd Title="ICO Wifi-Empfang" Comment="" Address="" Check="Ondilo_ICO_Rssi.\i_\i\v" Signed="true" Analog="true" SourceValLow="0" DestValLow="0" SourceValHigh="100" DestValHigh="100" DefVal="0" MinVal="-100" MaxVal="100"/>
+	<VirtualInUdpCmd Title="Wassertemp_min" Comment="" Address="" Check="Ondilo_ICO_Temperatur.\imin\i\v" Signed="true" Analog="true" SourceValLow="0" DestValLow="0" SourceValHigh="100" DestValHigh="100" DefVal="0" MinVal="-10" MaxVal="50"/>
+	<VirtualInUdpCmd Title="ICO Akkustand" Comment="" Address="" Check="Ondilo_ICO_Battery.\i_\i\v" Signed="true" Analog="true" SourceValLow="0" DestValLow="0" SourceValHigh="100" DestValHigh="100" DefVal="0" MinVal="0" MaxVal="100"/>
+	<VirtualInUdpCmd Title="Wassertemp_max" Comment="" Address="" Check="Ondilo_ICO_Temperatur.\imax\i\v" Signed="true" Analog="true" SourceValLow="0" DestValLow="0" SourceValHigh="100" DestValHigh="100" DefVal="0" MinVal="-10" MaxVal="50"/>
+	<VirtualInUdpCmd Title="ORP_max" Comment="" Address="" Check="Ondilo_ICO_ORP.\imax\i\v" Signed="true" Analog="true" SourceValLow="0" DestValLow="0" SourceValHigh="100" DestValHigh="100" DefVal="0" MinVal="-10000" MaxVal="10000"/>
+	<VirtualInUdpCmd Title="PH_min" Comment="" Address="" Check="Ondilo_ICO_PH.\imin\i\v" Signed="true" Analog="true" SourceValLow="0" DestValLow="0" SourceValHigh="100" DestValHigh="100" DefVal="0" MinVal="-10000" MaxVal="10000"/>
+	<VirtualInUdpCmd Title="ORP_min" Comment="" Address="" Check="Ondilo_ICO_ORP.\imin\i\v" Signed="true" Analog="true" SourceValLow="0" DestValLow="0" SourceValHigh="100" DestValHigh="100" DefVal="0" MinVal="-10000" MaxVal="10000"/>
+	<VirtualInUdpCmd Title="PH_max" Comment="" Address="" Check="Ondilo_ICO_PH.\imax\i\v" Signed="true" Analog="true" SourceValLow="0" DestValLow="0" SourceValHigh="100" DestValHigh="100" DefVal="0" MinVal="-10000" MaxVal="10000"/>
+	<VirtualInUdpCmd Title="TDS_max" Comment="" Address="" Check="Ondilo_ICO_TDS.\imax\i\v" Signed="true" Analog="true" SourceValLow="0" DestValLow="0" SourceValHigh="100" DestValHigh="100" DefVal="0" MinVal="-10000" MaxVal="10000"/>
+	<VirtualInUdpCmd Title="TDS_min" Comment="" Address="" Check="Ondilo_ICO_TDS.\imin\i\v" Signed="true" Analog="true" SourceValLow="0" DestValLow="0" SourceValHigh="100" DestValHigh="100" DefVal="0" MinVal="-10000" MaxVal="10000"/>
+</VirtualInUdp>
