@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # encoding=utf-8
 
-# Version 2021-06-27_V21 Loxberry Plugin - Ondilo ICO Poolsensor
+# Version 2022-04-14_V22 Loxberry Plugin - Ondilo ICO Poolsensor
 
 import requests
 import getpass
@@ -208,6 +208,7 @@ def main(args):
         units_speed = OndiloAPI().get_units(access_token)['speed']
         units_temperature = OndiloAPI().get_units(access_token)['temperature']
         units_volume = OndiloAPI().get_units(access_token)['volume']
+        units_tds = OndiloAPI().get_units(access_token)['tds']
         #print("test:",units_temperature
 
         conf_temp_low = OndiloAPI().get_configuration(pool_id, access_token)['temperature_low']
@@ -220,7 +221,9 @@ def main(args):
         conf_salt_high = OndiloAPI().get_configuration(pool_id, access_token)['salt_high']
         conf_tds_low = OndiloAPI().get_configuration(pool_id, access_token)['tds_low']
         conf_tds_high = OndiloAPI().get_configuration(pool_id, access_token)['tds_high']
-        #print("configuration:",conf_salt_high)
+
+
+        #print("configuration:",conf_temp_low)
 
     # ---------------------------------------------------------------------------------------
     ### Get and print last measures ###
@@ -296,7 +299,7 @@ def main(args):
         sock.sendto(bytes(packet_ph, 'utf-8'), (miniserverIP, virtualUDPPort))
         
         tds = OndiloAPI().get_values(pool_id, access_token)[3]['value']
-        packet_tds = "{0}.{1}_min{2}_={3}_max{4}-{5}".format("Ondilo_ICO_TDS",date_time_obj, conf_tds_low, tds ,conf_tds_high, units_hardness)
+        packet_tds = "{0}.{1}_min{2}_={3}_max{4}-{5}".format("Ondilo_ICO_TDS",date_time_obj, conf_tds_low, tds ,conf_tds_high, units_tds)
         print(packet_tds)
         sock.sendto(bytes(packet_tds, 'utf-8'), (miniserverIP, virtualUDPPort))
         
